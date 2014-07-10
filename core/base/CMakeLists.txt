@@ -3,6 +3,7 @@
 ############################################################################
 
 ROOT_GLOB_HEADERS(Base_dict_headers ${CMAKE_CURRENT_SOURCE_DIR}/inc/T*.h)
+ROOT_GLOB_SOURCES(sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src src/*.cxx)
 
 include_directories(${CMAKE_SOURCE_DIR}/graf3d/g3d/inc)
 include_directories(${CMAKE_SOURCE_DIR}/gui/gui/inc)
@@ -22,8 +23,9 @@ ROOT_GENERATE_DICTIONARY(G__Core
                          MODULE Core
                          OPTIONS ${dict_opts}
                          LINKDEF LinkDef.h)
-                         
-ROOT_OBJECT_LIBRARY(Base G__Core.cxx *.cxx)
+
+list(REMOVE_ITEM sources TROOT.cxx)
+ROOT_OBJECT_LIBRARY(Base G__Core.cxx ${sources})
 
 if(builtin_pcre)
   add_dependencies(Base PCRE)
